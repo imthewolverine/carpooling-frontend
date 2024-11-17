@@ -1,39 +1,41 @@
-// add_post_bloc.dart
-
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:latlong2/latlong.dart';
 import 'add_post_event.dart';
 import 'add_post_state.dart';
 
 class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
-  AddPostBloc() : super(AddPostInitial()) {
-    // Handle district changes
-    on<DistrictChanged>((event, emit) {
-      // If the current state is AddPostInitial, keep the other properties
-      final currentState = state as AddPostInitial;
-      emit(AddPostInitial(
-        selectedDistrict: event.district,
-        selectedShift: currentState.selectedShift,
-      ));
-    });
+  AddPostBloc() : super(const AddPostState()) {
+    on<PickDateTimeEvent>(_onPickDateTime);
+    on<SelectSourceEvent>(_onSelectSource);
+    on<SelectDestinationEvent>(_onSelectDestination);
+    on<SaveAdditionalInfoEvent>(_onSaveAdditionalInfo);
+  }
 
-    // Handle shift changes
-    on<ShiftChanged>((event, emit) {
-      final currentState = state as AddPostInitial;
-      emit(AddPostInitial(
-        selectedDistrict: currentState.selectedDistrict,
-        selectedShift: event.shift,
-      ));
-    });
+  void _onPickDateTime(PickDateTimeEvent event, Emitter<AddPostState> emit) {
+    emit(state.copyWith(selectedDateTime: event.selectedDateTime));
+  }
 
-    // Handle post submission
-    on<SubmitPostEvent>((event, emit) async {
-      emit(AddPostLoading());
+  void _onSelectSource(
+      SelectSourceEvent event, Emitter<AddPostState> emit) {
+    emit(state.copyWith(
+      sourcePoint: event.sourcePoint,
+      sourceAddress: event.sourceAddress,
+    ));
+  }
 
-      // Simulate a network request or database operation
-      await Future.delayed(Duration(seconds: 1));
+  void _onSelectDestination(
+      SelectDestinationEvent event, Emitter<AddPostState> emit) {
+    emit(state.copyWith(
+      destinationPoint: event.destinationPoint,
+      destinationAddress: event.destinationAddress,
+    ));
+  }
 
-      // Here, you could add conditions to emit AddPostFailure if there’s an error
-      emit(AddPostSuccess());
-    });
+  void _onSaveAdditionalInfo(
+      SaveAdditionalInfoEvent event, Emitter<AddPostState> emit) {
+    emit(state.copyWith(
+      address: event.address,
+      description: event.description,
+    ));
   }
 }

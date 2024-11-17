@@ -1,22 +1,53 @@
-// add_post_state.dart
+import 'package:equatable/equatable.dart';
+import 'package:latlong2/latlong.dart';
 
-abstract class AddPostState {
-  final String? selectedDistrict;
-  final String? selectedShift;
+class AddPostState extends Equatable {
+  final DateTime? selectedDateTime;
+  final LatLng? sourcePoint;
+  final String? sourceAddress;
+  final LatLng? destinationPoint;
+  final String? destinationAddress;
+  final String? address;
+  final String? description;
 
-  AddPostState({this.selectedDistrict, this.selectedShift});
-}
+  const AddPostState({
+    this.selectedDateTime,
+    this.sourcePoint,
+    this.sourceAddress,
+    this.destinationPoint,
+    this.destinationAddress,
+    this.address,
+    this.description,
+  });
 
-class AddPostInitial extends AddPostState {
-  AddPostInitial({String? selectedDistrict, String? selectedShift})
-      : super(selectedDistrict: selectedDistrict, selectedShift: selectedShift);
-}
+  AddPostState copyWith({
+    DateTime? selectedDateTime,
+    LatLng? sourcePoint,
+    String? sourceAddress,
+    LatLng? destinationPoint,
+    String? destinationAddress,
+    String? address,
+    String? description,
+  }) {
+    return AddPostState(
+      selectedDateTime: selectedDateTime ?? this.selectedDateTime,
+      sourcePoint: sourcePoint ?? this.sourcePoint,
+      sourceAddress: sourceAddress ?? this.sourceAddress,
+      destinationPoint: destinationPoint ?? this.destinationPoint,
+      destinationAddress: destinationAddress ?? this.destinationAddress,
+      address: address ?? this.address,
+      description: description ?? this.description,
+    );
+  }
 
-class AddPostLoading extends AddPostState {}
-
-class AddPostSuccess extends AddPostState {}
-
-class AddPostFailure extends AddPostState {
-  final String error;
-  AddPostFailure({required this.error});
+  @override
+  List<Object?> get props => [
+    selectedDateTime,
+    sourcePoint,
+    sourceAddress,
+    destinationPoint,
+    destinationAddress,
+    address,
+    description,
+  ];
 }

@@ -25,7 +25,9 @@ dependencies:
   geolocator: ^9.0.0
   firebase_messaging: ^15.1.4
   jwt_decoder: ^2.0.1
-
+  # UI Enhancements
+  intl: ^0.18.0 # For date and time formatting
+  flutter_spinkit: ^5.2.0 # Loading animations and spinners
 dev_dependencies:
   flutter_test:
     sdk: flutter

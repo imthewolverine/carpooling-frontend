@@ -1,27 +1,46 @@
-abstract class AddPostEvent {}
+import 'package:equatable/equatable.dart';
+import 'package:latlong2/latlong.dart';
 
-class DistrictChanged extends AddPostEvent {
-  final String district;
-  DistrictChanged(this.district);
+abstract class AddPostEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
-class ShiftChanged extends AddPostEvent {
-  final String shift;
-  ShiftChanged(this.shift);
+class PickDateTimeEvent extends AddPostEvent {
+  final DateTime selectedDateTime;
+
+  PickDateTimeEvent(this.selectedDateTime);
+
+  @override
+  List<Object?> get props => [selectedDateTime];
 }
 
-class SubmitPostEvent extends AddPostEvent {
-  final String school;
-  final String district;
-  final String shift;
-  final String salary;
-  final String additionalInfo;
+class SelectSourceEvent extends AddPostEvent {
+  final LatLng sourcePoint;
+  final String sourceAddress;
 
-  SubmitPostEvent({
-    required this.school,
-    required this.district,
-    required this.shift,
-    required this.salary,
-    required this.additionalInfo,
-  });
+  SelectSourceEvent(this.sourcePoint, this.sourceAddress);
+
+  @override
+  List<Object?> get props => [sourcePoint, sourceAddress];
+}
+
+class SelectDestinationEvent extends AddPostEvent {
+  final LatLng destinationPoint;
+  final String destinationAddress;
+
+  SelectDestinationEvent(this.destinationPoint, this.destinationAddress);
+
+  @override
+  List<Object?> get props => [destinationPoint, destinationAddress];
+}
+
+class SaveAdditionalInfoEvent extends AddPostEvent {
+  final String address;
+  final String description;
+
+  SaveAdditionalInfoEvent(this.address, this.description);
+
+  @override
+  List<Object?> get props => [address, description];
 }
