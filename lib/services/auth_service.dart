@@ -6,36 +6,56 @@ import 'package:carpooling_frontend/services/secure_storage_service.dart';
 class AuthService {
   final SecureStorageService _secureStorage = SecureStorageService();
 
-  final String baseUrl =
-      'https://backend-api-491759785783.asia-northeast1.run.app/';
+  //final String baseUrl =
+  //    'https://backend-api-491759785783.asia-northeast1.run.app/';
 
   Future<String?> authenticateUser(
       String usernameOrEmail, String password) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/login'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'usernameOrEmail': usernameOrEmail, // Updated key to match API format
-          'password': password,
-        }),
-      );
+    if (usernameOrEmail == 'admin' && password == '123') {
+      const token = 'token';
+      await _secureStorage.saveToken(token);
+      return token;
+    } else {
+      return null;
+    }
+    //try {
+    //  final response = await http.post(
+    //    Uri.parse('$baseUrl/login'),
+    //    headers: {'Content-Type': 'application/json'},
+    //    body: jsonEncode({
+    //      'usernameOrEmail': usernameOrEmail, // Updated key to match API format
+    //      'password': password,
+    //    }),
+    //  );
+    //  print('usernameOrEmail: $usernameOrEmail');
+    //  print('password: $password');
+    //  print('response: ${response.body}');
+    //  if (response.statusCode == 200) {
+    //    final responseBody = jsonDecode(response.body);
+//
+    //    // Assuming the API returns a `token` and `user` object in the response
+    //    final token = responseBody['token'];
+//
+    //    // Save token and user in secure storage
+    //    await _secureStorage.saveToken(token);
+//
+    //    return token;
+    //  } else {
+    //    return null; // Authentication failed
+    //  }
+    //} catch (e) {
+    //  print('Error during authentication: $e');
+    //  return null;
+    //}
+  }
 
-      if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-
-        // Assuming the API returns a `token` and `user` object in the response
-        final token = responseBody['token'];
-
-        // Save token and user in secure storage
-        await _secureStorage.saveToken(token);
-
-        return token;
-      } else {
-        return null; // Authentication failed
-      }
-    } catch (e) {
-      print('Error during authentication: $e');
+  Future<String?> authenticateDriver(
+      String usernameOrEmail, String password) async {
+    if (usernameOrEmail == 'driver' && password == '123') {
+      const token = 'token';
+      await _secureStorage.saveToken(token);
+      return token;
+    } else {
       return null;
     }
   }

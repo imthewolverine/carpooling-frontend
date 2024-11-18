@@ -10,11 +10,16 @@ abstract class LoginEvent extends Equatable {
 class Check extends LoginEvent {
   final String username;
   final String password;
+  final String accountType; // user or driver
 
-  const Check({required this.username, required this.password});
+  const   Check({
+    required this.username,
+    required this.password,
+    required this.accountType,
+  });
 
   @override
-  List<Object> get props => [username, password];
+  List<Object> get props => [username, password, accountType];
 }
 
 // Event to toggle password visibility
