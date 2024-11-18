@@ -16,7 +16,6 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFFF6F6F6),
-          elevation: 0,
           title: Row(
             children: [
               IconButton(
@@ -38,81 +37,40 @@ class HomeScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.notifications, color: Colors.black),
                 onPressed: () {
-                  //Navigator.push(
-                  //  context,
-                  //  MaterialPageRoute(
-                  //    builder: (context) => NotificationScreen(),
-                  //  ),
-                  //);
+                  // Add notification navigation logic here
                 },
               ),
             ],
           ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(50),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                      color: Colors.grey,
-                      width: 1), // Grey border for inactive tabs
-                ),
-              ),
-              child: TabBar(
-                indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 2.0,
-                  ),
-                  insets: EdgeInsets.zero,
-                ),
-                labelColor: Theme.of(context).colorScheme.primary,
-                unselectedLabelColor: Colors.grey,
-                tabs: const [
-                  Tab(text: 'Эцэг эх'),
-                  Tab(text: 'School Police'),
-                ],
-              ),
-            ),
-          ),
         ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: TabBarView(
+        body: Column(
           children: [
-            // "Эцэг эх" Tab - Shows ads
-            Stack(
-              children: [
-                Column(
-                  children: [
-                    _buildTopSection(context),
-                    Expanded(
-                      child: BlocBuilder<HomeBloc, HomeState>(
-                        builder: (context, state) {
-                          if (state is HomeLoading) {
-                            return Center(child: CircularProgressIndicator());
-                          } else if (state is HomeLoaded) {
-                            return _buildAdList(context, state.ads);
-                          } else if (state is HomeError) {
-                            return Center(
-                              child: Text(
-                                'Failed to load ads: ${state.message}',
-                                style: TextStyle(color: Colors.red),
-                              ),
-                            );
-                          } else {
-                            return Center(
-                              child: Text(
-                                'No ads available.',
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            );
-                          }
-                        },
+            _buildTopSection(context),
+            Expanded(
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is HomeLoaded) {
+                    return _buildAdList(context, state.ads);
+                  } else if (state is HomeError) {
+                    return Center(
+                      child: Text(
+                        'Failed to load ads: ${state.message}',
+                        style: TextStyle(color: Colors.red),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    );
+                  } else {
+                    return Center(
+                      child: Text(
+                        'No ads available.',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -147,7 +105,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Function to show the bottom sheet for adding a post
   void _showAddPostBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -199,22 +156,18 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildTopSection(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 150,
-          margin: EdgeInsets.symmetric(vertical: 10),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              _buildAdBanner(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
-              _buildAdBanner(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
-            ],
-          ),
-        ),
-      ],
+    return Container(
+      height: 150,
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _buildAdBanner(
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
+          _buildAdBanner(
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
+        ],
+      ),
     );
   }
 

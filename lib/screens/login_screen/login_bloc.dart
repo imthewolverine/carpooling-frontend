@@ -17,13 +17,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<void> _onCheck(Check event, Emitter<LoginState> emit) async {
     emit(LoginLoading());
 
-    final token =
-        await authService.authenticateUser(event.username, event.password);
+    final token = (event.accountType == "user")
+        ? await authService.authenticateUser(event.username, event.password)
+        : await authService.authenticateDriver(event.username, event.password);
 
     if (token != null) {
       emit(LoginSuccess(token: token));
     } else {
-      emit(LoginFailure(message: 'Нэвтрэх нэр эсвэл нууц үг буруу байна'));
+      emit(LoginFailure(
+          message:
+              '${event.accountType} account not found or invalid credentials.'));
     }
   }
 

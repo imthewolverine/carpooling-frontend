@@ -11,14 +11,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // Initialize Firebase
-
-  final fcmService = FCMService(); // Instantiate the FCM service
-
-  // Retrieve the FCM token
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-  print("FCM Token: $fcmToken"); // Log the token for testing
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp(); // Initialize Firebase
+//
+  //final fcmService = FCMService(); // Instantiate the FCM service
+//
+  //// Retrieve the FCM token
+  //final fcmToken = await FirebaseMessaging.instance.getToken();
+  //print("FCM Token: $fcmToken"); // Log the token for testing
 
   // Send the FCM token to the backend
   //await fcmService.sendTokenToBackend(fcmToken);

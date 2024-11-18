@@ -84,48 +84,59 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       return;
     }
 
-    // Send data to backend
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/register'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'name': state.username,
-          'email': state.email,
-          'password': state.password,
-          'address': 'Default address', // Default value
-          'phoneNumber': '0000000000', // Default value
-          'rating': 0, // Default value
-          'totalWorkCount': 0, // Default value
-          'userid': 123 // Default value
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        emit(state.copyWith(
-          isSubmitting: false,
-          isSuccess: true,
-          isFailure: false,
-        ));
-      } else {
-        final errorResponse = json.decode(response.body);
-        emit(state.copyWith(
-          isSubmitting: false,
-          isSuccess: false,
-          isFailure: true,
-          errorMessage: errorResponse['message'] ?? 'Registration failed',
-        ));
-      }
-    } catch (e) {
+    // Select API endpoint based on role
+    String apiEndpoint;
+    if (event.role == "Эцэг эх") {
+      apiEndpoint = '$baseUrl/register-user';
+    } else if (event.role == "Жолооч") {
+      apiEndpoint = '$baseUrl/register-driver';
+    } else {
       emit(state.copyWith(
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
-        errorMessage: 'Failed to connect to the server',
+        errorMessage: 'Invalid role',
       ));
+      return;
     }
+
+    // Send data to backend
+    //try {
+    //  final response = await http.post(
+    //    Uri.parse(apiEndpoint),
+    //    headers: <String, String>{
+    //      'Content-Type': 'application/json; charset=UTF-8',
+    //    },
+    //    body: jsonEncode(<String, dynamic>{
+    //      'name': state.username,
+    //      'email': state.email,
+    //      'password': state.password,
+    //    }),
+    //  );
+//
+//    //  if (response.statusCode == 200) {
+//    //    emit(state.copyWith(
+//    //      isSubmitting: false,
+//    //      isSuccess: true,
+//    //      isFailure: false,
+//    //    ));
+//    //  } else {
+//    //    final errorResponse = json.decode(response.body);
+//    //    emit(state.copyWith(
+//    //      isSubmitting: false,
+//    //      isSuccess: false,
+//    //      isFailure: true,
+//    //      errorMessage: errorResponse['message'] ?? 'Registration failed',
+//    //    ));
+//    //  }
+//    //} catch (e) {
+//    //  emit(state.copyWith(
+//    //    isSubmitting: false,
+//    //    isSuccess: false,
+//    //    isFailure: true,
+//    //    errorMessage: 'Failed to connect to the server',
+//    //  ));
+//    }
   }
 
   Future<bool> _isEmailValid(String email) async {

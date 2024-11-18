@@ -43,7 +43,14 @@ class SignupPasswordAgainChanged extends SignupEvent {
   List<Object> get props => [confirmPassword];
 }
 
-class SignupSubmitted extends SignupEvent {}
+class SignupSubmitted extends SignupEvent {
+  final String role;
+
+  const SignupSubmitted({required this.role});
+
+  @override
+  List<Object> get props => [role];
+}
 
 class TogglePasswordVisibility extends SignupEvent {
   final bool obscurePassword;
