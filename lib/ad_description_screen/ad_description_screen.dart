@@ -1,13 +1,13 @@
+import 'package:carpooling_frontend/models/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../models/ad.dart';
 import '../ad_description_screen/ad_description_bloc.dart';
 import '../ad_description_screen/ad_description_event.dart';
 import '../ad_description_screen/ad_description_state.dart';
 
 class AdDescriptionScreen extends StatefulWidget {
-  final Ad ad;
+  final RouteModel ad;
 
   const AdDescriptionScreen({
     required this.ad,
@@ -134,7 +134,7 @@ class _AdDescriptionScreenState extends State<AdDescriptionScreen> {
                                                 0.4,
                                         child: _buildInfoCard(
                                           'Үнэ / Хөлс',
-                                          '${widget.ad.salary}₮',
+                                          '${widget.ad.location}₮',
                                           icon: Icons.attach_money,
                                           iconColor: Theme.of(context)
                                               .colorScheme

@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:latlong2/latlong.dart';
 import 'add_post_event.dart';
 import 'add_post_state.dart';
 
@@ -15,8 +14,7 @@ class AddPostBloc extends Bloc<AddPostEvent, AddPostState> {
     emit(state.copyWith(selectedDateTime: event.selectedDateTime));
   }
 
-  void _onSelectSource(
-      SelectSourceEvent event, Emitter<AddPostState> emit) {
+  void _onSelectSource(SelectSourceEvent event, Emitter<AddPostState> emit) {
     emit(state.copyWith(
       sourcePoint: event.sourcePoint,
       sourceAddress: event.sourceAddress,

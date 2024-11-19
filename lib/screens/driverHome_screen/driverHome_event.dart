@@ -1,18 +1,18 @@
+import 'package:carpooling_frontend/models/route.dart';
 import 'package:equatable/equatable.dart';
-import '../../models/route.dart';
 
-abstract class HomeEvent extends Equatable {
-  const HomeEvent();
+abstract class DriverHomeEvent extends Equatable {
+  const DriverHomeEvent();
 }
 
 // Load Ads Event
-class LoadAds extends HomeEvent {
+class LoadAds extends DriverHomeEvent {
   @override
   List<Object> get props => [];
 }
 
 // Add New Ad Event
-class AddNewAd extends HomeEvent {
+class AddNewAd extends DriverHomeEvent {
   final RouteModel newAd;
 
   const AddNewAd(this.newAd);
@@ -22,7 +22,7 @@ class AddNewAd extends HomeEvent {
 }
 
 // Search Ads Event
-class SearchAds extends HomeEvent {
+class SearchAds extends DriverHomeEvent {
   final String query;
 
   const SearchAds(this.query);

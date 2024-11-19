@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import '../../models/ad.dart';
+import '../../models/route.dart';
 
 class HomeState extends Equatable {
   const HomeState();
@@ -13,7 +13,7 @@ class HomeInitial extends HomeState {}
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
-  final List<Ad> ads;
+  final List<RouteModel> ads;
   final bool isSearchResult;
 
   const HomeLoaded({required this.ads, this.isSearchResult = false});

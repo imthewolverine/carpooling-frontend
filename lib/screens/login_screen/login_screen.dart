@@ -1,3 +1,4 @@
+import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carpooling_frontend/screens/login_screen/login_bloc.dart';
@@ -150,7 +151,11 @@ class LoginScreen extends StatelessWidget {
               if (state is LoginSuccess) {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (_) => HomeScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => accountType == 'user'
+                        ? HomeScreen()
+                        : DriverHomeScreen(),
+                  ),
                 );
               } else if (state is LoginFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(

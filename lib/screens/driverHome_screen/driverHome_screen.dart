@@ -1,32 +1,18 @@
 import 'package:carpooling_frontend/models/route.dart';
+import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_bloc.dart';
+import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_event.dart';
+import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_state.dart';
 import 'package:carpooling_frontend/widgets/route_card.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../profile_screen/profile_screen.dart';
 import '../add_post_screen/add_post_screen.dart';
-import '../home_screen/home_bloc.dart';
-import '../home_screen/home_event.dart';
-import '../home_screen/home_state.dart';
 
-List<RouteModel> Example = [
-  RouteModel(
-    id: '1',
-    location: 'Ulaanbaatar',
-    description: 'Description',
-    driverId: 'driver123',
-    startLocation: GeoPoint(47.9184, 106.9170), // Coordinates for Ulaanbaatar
-    endLocation: GeoPoint(49.4867, 105.9228), // Coordinates for Darkhan
-    startTime: Timestamp.fromDate(DateTime.parse('2022-01-01 12:00:00')),
-    userId: 'user123',
-  ),
-];
-
-class HomeScreen extends StatelessWidget {
+class DriverHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc()..add(LoadAds()),
+      create: (_) => DriverHomeBloc()..add(LoadAds()),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Color(0xFFF6F6F6),
@@ -60,22 +46,20 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Column(
           children: [
-            _buildTopSection(context),
             Expanded(
-              child: BlocBuilder<HomeBloc, HomeState>(
+              child: BlocBuilder<DriverHomeBloc, DriverHomeState>(
                 builder: (context, state) {
-                  if (state is HomeLoading) {
+                  if (state is DriverHomeLoading) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (state is HomeLoaded) {
-                    return _buildAdList(context, Example);
-                  } else if (state is HomeError) {
-                    //return Center(
-                    //  child: Text(
-                    //    'Failed to load ads: ${state.message}',
-                    //    style: TextStyle(color: Colors.red),
-                    //  ),
-                    //);
-                    return _buildAdList(context, Example);
+                  } else if (state is DriverHomeLoaded) {
+                    return _buildAdList(context, state.ads);
+                  } else if (state is DriverHomeError) {
+                    return Center(
+                      child: Text(
+                        'Failed to load ads: ${state.message}',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
                   } else {
                     return Center(
                       child: Text(
@@ -164,24 +148,8 @@ class HomeScreen extends StatelessWidget {
           prefixIcon: Icon(Icons.search, color: Colors.black),
         ),
         onChanged: (query) {
-          context.read<HomeBloc>().add(SearchAds(query));
+          context.read<DriverHomeBloc>().add(SearchAds(query));
         },
-      ),
-    );
-  }
-
-  Widget _buildTopSection(BuildContext context) {
-    return Container(
-      height: 150,
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildAdBanner(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
-          _buildAdBanner(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
-        ],
       ),
     );
   }

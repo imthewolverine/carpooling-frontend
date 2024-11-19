@@ -1,14 +1,19 @@
-import 'package:carpooling_frontend/ad_description_screen/ad_description_screen.dart';
+import 'package:carpooling_frontend/models/route.dart';
 import 'package:flutter/material.dart';
-import '../../models/ad.dart';
+import 'package:intl/intl.dart';
+import '../ad_description_screen/ad_description_screen.dart';
 
-class AdCard extends StatelessWidget {
-  final Ad ad;
+class RouteCard extends StatelessWidget {
+  final RouteModel route;
 
-  const AdCard({Key? key, required this.ad}) : super(key: key);
+  const RouteCard({super.key, required this.route});
 
   @override
   Widget build(BuildContext context) {
+    // Format the timestamp to a readable date and time
+    final formattedStartTime =
+        DateFormat('yyyy-MM-dd HH:mm').format(route.startTime.toDate());
+
     return Card(
       margin: const EdgeInsets.all(15.0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
@@ -21,7 +26,7 @@ class AdCard extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               backgroundColor: Colors.grey[300],
-              child: Icon(Icons.person, color: Colors.grey),
+              child: const Icon(Icons.location_on, color: Colors.grey),
             ),
             const SizedBox(width: 12.0),
             // Ad Details
@@ -29,13 +34,17 @@ class AdCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Display location
                   Text(
-                    ad.school,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    "Location: ${route.location}",
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                   const SizedBox(height: 5.0),
-                  Text("Salary: ${ad.salary} ₮"),
-                  Text("Description: ${ad.description}"),
+                  // Display start time
+                  Text("Start Time: $formattedStartTime"),
+                  // Display description
+                  Text("Description: ${route.description}"),
                 ],
               ),
             ),
@@ -45,14 +54,14 @@ class AdCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AdDescriptionScreen(ad: ad),
+                    builder: (context) => AdDescriptionScreen(ad: route),
                   ),
                 );
               },
               child: CircleAvatar(
                 radius: 20,
-                backgroundColor: Color(0xFF00204A),
-                child: Icon(
+                backgroundColor: const Color(0xFF00204A),
+                child: const Icon(
                   Icons.arrow_forward,
                   color: Colors.white,
                   size: 20,
