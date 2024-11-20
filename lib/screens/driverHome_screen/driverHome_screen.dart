@@ -1,15 +1,25 @@
-import 'package:carpooling_frontend/models/route.dart';
-import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_bloc.dart';
-import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_event.dart';
-import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_state.dart';
-import 'package:carpooling_frontend/widgets/route_card.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:carpooling_frontend/models/driver.dart';
+import 'package:carpooling_frontend/screens/driver_profile_screen/driver_profile_screen.dart';
+import 'package:carpooling_frontend/widgets/driver_route_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../profile_screen/profile_screen.dart';
-import '../add_post_screen/add_post_screen.dart';
+import 'package:carpooling_frontend/models/route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'driverHome_bloc.dart';
+import 'driverHome_event.dart';
+import 'driverHome_state.dart';
 
-List<RouteModel> Example = [
+final driver = Driver(
+  id: "driver123",
+  driverName: "driverAdmin",
+  email: "batlhagva15@gmail.com",
+  firstName: "batlkhagva",
+  lastName: "battulga",
+  password: "123",
+  phoneNumber: "90553609",
+);
+
+List<RouteModel> exampleRoutes = [
   RouteModel(
     id: '1',
     location: 'Ulaanbaatar',
@@ -23,7 +33,7 @@ List<RouteModel> Example = [
   RouteModel(
     id: '2',
     location: 'Ulaanbaatar',
-    description: 'Description',
+    description: 'Another Route',
     driverId: 'driver123',
     startLocation: GeoPoint(47.9184, 106.9170),
     endLocation: GeoPoint(47.920538, 106.933446),
@@ -37,95 +47,87 @@ class DriverHomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => DriverHomeBloc()..add(LoadAds()),
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFFF6F6F6),
-          title: Row(
-            children: [
-              IconButton(
-                icon: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSxSycPmZ67xN1lxHxyMYOUPxZObOxnkLf6w&s',
+      child: DefaultTabController(
+        length: 2, // Two tabs
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color(0xFFF6F6F6),
+            title: Row(
+              children: [
+                IconButton(
+                  icon: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSxSycPmZ67xN1lxHxyMYOUPxZObOxnkLf6w&s',
+                    ),
                   ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DriverProfileScreen(
+                                driver: driver,
+                              )),
+                    );
+                  },
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()),
-                  );
-                },
-              ),
-              Expanded(
-                child: _buildSearchSection(context),
-              ),
-              IconButton(
-                icon: Icon(Icons.notifications, color: Colors.black),
-                onPressed: () {
-                  // Add notification navigation logic here
-                },
-              ),
-            ],
+                Expanded(
+                  child: _buildSearchSection(context),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.notifications, color: Colors.black),
+                  onPressed: () {
+                    // Add notification navigation logic here
+                  },
+                ),
+              ],
+            ),
+            bottom: const TabBar(
+              labelColor: Colors.black,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Colors.black,
+              tabs: [
+                Tab(text: 'Маршрут'),
+                Tab(text: 'Эхэлсэн маршрут'),
+              ],
+            ),
           ),
-        ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        body: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<DriverHomeBloc, DriverHomeState>(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: TabBarView(
+            children: [
+              // First tab: Routes
+              BlocBuilder<DriverHomeBloc, DriverHomeState>(
                 builder: (context, state) {
                   if (state is DriverHomeLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (state is DriverHomeLoaded) {
-                    return _buildAdList(context, Example);
+                    return _buildAdList(context, exampleRoutes);
                   } else if (state is DriverHomeError) {
+                    return _buildAdList(context, exampleRoutes);
                     //return Center(
                     //  child: Text(
-                    //    'Failed to load ads: ${state.message}',
-                    //    style: TextStyle(color: Colors.red),
+                    //    'Failed to load routes.',
+                    //    style: const TextStyle(color: Colors.red),
                     //  ),
                     //);
-                    return _buildAdList(context, Example);
                   } else {
                     return Center(
                       child: Text(
-                        'No ads available.',
-                        style: TextStyle(color: Colors.grey),
+                        'No routes available.',
+                        style: const TextStyle(color: Colors.grey),
                       ),
                     );
                   }
                 },
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _showAddPostBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) => FractionallySizedBox(
-        heightFactor: 0.9,
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              width: 40,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(10),
+              // Second tab: Favorites
+              Center(
+                child: Text(
+                  'Favorites coming soon!',
+                  style: const TextStyle(fontSize: 18, color: Colors.grey),
+                ),
               ),
-            ),
-            Expanded(
-              child: AddPostScreen(),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -136,14 +138,14 @@ class DriverHomeScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: TextField(
         decoration: InputDecoration(
-          hintText: 'Хайх...',
+          hintText: 'Search...',
           fillColor: Colors.grey[200],
           filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
             borderSide: BorderSide.none,
           ),
-          prefixIcon: Icon(Icons.search, color: Colors.black),
+          prefixIcon: const Icon(Icons.search, color: Colors.black),
         ),
         onChanged: (query) {
           context.read<DriverHomeBloc>().add(SearchAds(query));
@@ -152,19 +154,12 @@ class DriverHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAdBanner(String imageUrl) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Image.network(imageUrl),
-    );
-  }
-
   Widget _buildAdList(BuildContext context, List<RouteModel> routes) {
     return ListView.builder(
       itemCount: routes.length,
       itemBuilder: (context, index) {
         final route = routes[index];
-        return RouteCard(route: route);
+        return DriverRouteCard(route: route);
       },
     );
   }

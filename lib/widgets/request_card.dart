@@ -42,7 +42,22 @@ class RequestCard extends StatelessWidget {
             "${request.driverFirstName} ${request.driverLastName}",
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: Text("Status: ${request.status}"),
+          subtitle: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.star, color: Colors.yellow),
+              Builder(
+                builder: (context) {
+                  final theme = Theme.of(context);
+                  return Text(
+                    '4.5 ҮНЭЛГЭЭ',
+                    style:
+                        theme.textTheme.headlineMedium?.copyWith(fontSize: 16),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

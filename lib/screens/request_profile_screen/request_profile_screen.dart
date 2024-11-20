@@ -45,6 +45,25 @@ class RequestProfileScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('9 Хүргэлт',
+                        style: theme.textTheme.bodyLarge
+                            ?.copyWith(color: theme.colorScheme.onPrimary)),
+                    const SizedBox(width: 12),
+                    Row(
+                      children: [
+                        const Icon(Icons.star, color: Colors.yellow),
+                        Text(
+                          '4.5 ҮНЭЛГЭЭ',
+                          style: theme.textTheme.bodyLarge
+                              ?.copyWith(color: theme.colorScheme.onPrimary),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -60,6 +79,18 @@ class RequestProfileScreen extends StatelessWidget {
                   ListTile(
                     title: Text(
                       'Тээврийн хэрэгсэл',
+                      style: theme.textTheme.headlineMedium
+                          ?.copyWith(fontSize: 20),
+                    ),
+                    trailing: Icon(Icons.arrow_forward_ios,
+                        color: theme.colorScheme.onSurface),
+                    onTap: () {
+                      // Navigate to Vehicle Information screen
+                    },
+                  ),
+                  ListTile(
+                    title: Text(
+                      'Мэдэгдэл',
                       style: theme.textTheme.headlineMedium
                           ?.copyWith(fontSize: 20),
                     ),
@@ -109,7 +140,8 @@ class RequestProfileScreen extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.colorScheme.secondary,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

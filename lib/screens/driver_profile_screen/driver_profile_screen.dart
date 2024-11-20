@@ -38,12 +38,31 @@ class DriverProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "${driver.firstName} ${driver.lastName}",
+                  "${driver.driverName}",
                   style: theme.textTheme.headlineMedium?.copyWith(
                     color: theme.colorScheme.onPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('9 Хүргэлт',
+                        style: theme.textTheme.bodyLarge
+                            ?.copyWith(color: theme.colorScheme.onPrimary)),
+                    const SizedBox(width: 12),
+                    Row(
+                      children: [
+                        const Icon(Icons.star, color: Colors.yellow),
+                        Text(
+                          '4.5 ҮНЭЛГЭЭ',
+                          style: theme.textTheme.bodyLarge
+                              ?.copyWith(color: theme.colorScheme.onPrimary),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -51,30 +70,14 @@ class DriverProfileScreen extends StatelessWidget {
           // Bottom Section - White background
           Expanded(
             child: Container(
-              color: theme.colorScheme.surface,
+              color: Colors.white,
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: [
                   const SizedBox(height: 16),
-
-                  // Description and Registration Date
-                  // Buttons to navigate to Driver Info and Vehicle Info
                   ListTile(
                     title: Text(
-                      'Driver Information',
-                      style: theme.textTheme.headlineMedium
-                          ?.copyWith(fontSize: 20),
-                    ),
-                    trailing: Icon(Icons.arrow_forward_ios,
-                        color: theme.colorScheme.onSurface),
-                    onTap: () {
-                      // Navigate to Driver Information screen
-                    },
-                  ),
-                  const Divider(),
-                  ListTile(
-                    title: Text(
-                      'Vehicle Information',
+                      'Тээврийн хэрэгсэл',
                       style: theme.textTheme.headlineMedium
                           ?.copyWith(fontSize: 20),
                     ),
@@ -86,19 +89,20 @@ class DriverProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Driver Details',
+                    'Жолоочийн мэдээлэл',
                     style: theme.textTheme.headlineMedium?.copyWith(
-                      fontSize: 15,
+                      fontSize: 20,
                     ),
                   ),
                   const SizedBox(height: 4),
                   _buildDetailRow("Phone Number", driver.phoneNumber, theme),
-                  _buildDetailRow("Driver Name", driver.driverName, theme),
+                  _buildDetailRow("Жолоочийн нэр", driver.firstName, theme),
+                  _buildDetailRow("Жолоочийн овог", driver.lastName, theme),
                   _buildDetailRow("Email", driver.email, theme),
                   const SizedBox(height: 16),
 
                   // Recent Routes Section
-                  _buildSectionHeader('Recent Routes', theme),
+                  _buildSectionHeader('Өмнөх хүргэлтүүд', theme),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
@@ -112,6 +116,30 @@ class DriverProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+          ),
+
+          // Bottom Button
+          Container(
+            padding: const EdgeInsets.all(16.0),
+            color: Colors.white,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () {
+                // Implement the approval action
+                print("Request Approved!");
+              },
+              child: const Text(
+                "Гарах",
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
           ),
@@ -129,14 +157,14 @@ class DriverProfileScreen extends StatelessWidget {
             "$label: ",
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 18,
             ),
           ),
           Expanded(
             child: Text(
               value,
               style: theme.textTheme.headlineMedium?.copyWith(
-                fontSize: 16,
+                fontSize: 18,
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -161,25 +189,33 @@ class DriverProfileScreen extends StatelessWidget {
   Widget _buildRouteCard(ThemeData theme) {
     return Container(
       width: 200,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 5,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: theme.colorScheme.primary),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Image section
+          ClipRRect(
+            borderRadius:
+                BorderRadius.circular(8), // Rounded corners for the image
+            child: Image.network(
+              'https://img.lovepik.com/free-png/20210919/lovepik-school-png-image_400499294_wh1200.png', // Replace with the image URL
+              height: 80,
+              width: double.infinity,
+              fit: BoxFit.cover, // Ensures the image fits the container
+            ),
+          ),
+          const SizedBox(height: 8), // Spacing between image and text
+          // Text content
           Text(
-            'Route Name',
-            style: theme.textTheme.bodyLarge?.copyWith(
+            '3-р сургууль',
+            style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
           const SizedBox(height: 4),
