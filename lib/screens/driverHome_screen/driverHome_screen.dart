@@ -1,6 +1,7 @@
 import 'package:carpooling_frontend/models/driver.dart';
 import 'package:carpooling_frontend/screens/driver_profile_screen/driver_profile_screen.dart';
 import 'package:carpooling_frontend/widgets/driver_route_card.dart';
+import 'package:carpooling_frontend/widgets/trip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carpooling_frontend/models/route.dart';
@@ -103,12 +104,6 @@ class DriverHomeScreen extends StatelessWidget {
                     return _buildAdList(context, exampleRoutes);
                   } else if (state is DriverHomeError) {
                     return _buildAdList(context, exampleRoutes);
-                    //return Center(
-                    //  child: Text(
-                    //    'Failed to load routes.',
-                    //    style: const TextStyle(color: Colors.red),
-                    //  ),
-                    //);
                   } else {
                     return Center(
                       child: Text(
@@ -119,13 +114,8 @@ class DriverHomeScreen extends StatelessWidget {
                   }
                 },
               ),
-              // Second tab: Favorites
-              Center(
-                child: Text(
-                  'Favorites coming soon!',
-                  style: const TextStyle(fontSize: 18, color: Colors.grey),
-                ),
-              ),
+              // Second tab: Trips
+              _buildTripList(context),
             ],
           ),
         ),
@@ -160,6 +150,39 @@ class DriverHomeScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         final route = routes[index];
         return DriverRouteCard(route: route);
+      },
+    );
+  }
+
+  Widget _buildTripList(BuildContext context) {
+    final exampleTrips = [
+      RouteModel(
+        id: '1',
+        location: 'Ulaanbaatar',
+        description: 'Ongoing Route',
+        driverId: 'driver123',
+        startLocation: GeoPoint(47.9184, 106.9170),
+        endLocation: GeoPoint(47.920538, 106.933446),
+        startTime: Timestamp.fromDate(DateTime.parse('2022-01-01 12:00:00')),
+        userId: 'user123',
+      ),
+      RouteModel(
+        id: '2',
+        location: 'Ulaanbaatar',
+        description: 'Ongoing Route 2',
+        driverId: 'driver123',
+        startLocation: GeoPoint(47.9184, 106.9170),
+        endLocation: GeoPoint(47.920538, 106.933446),
+        startTime: Timestamp.fromDate(DateTime.parse('2022-01-02 14:00:00')),
+        userId: 'user124',
+      ),
+    ];
+
+    return ListView.builder(
+      itemCount: exampleTrips.length,
+      itemBuilder: (context, index) {
+        final trip = exampleTrips[index];
+        return TripCard(route: trip);
       },
     );
   }

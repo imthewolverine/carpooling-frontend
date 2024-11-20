@@ -87,6 +87,18 @@ class DriverProfileScreen extends StatelessWidget {
                       // Navigate to Vehicle Information screen
                     },
                   ),
+                  ListTile(
+                    title: Text(
+                      'Мэдэгдэл',
+                      style: theme.textTheme.headlineMedium
+                          ?.copyWith(fontSize: 20),
+                    ),
+                    trailing: Icon(Icons.arrow_forward_ios,
+                        color: theme.colorScheme.onSurface),
+                    onTap: () {
+                      // Navigate to Vehicle Information screen
+                    },
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Жолоочийн мэдээлэл',

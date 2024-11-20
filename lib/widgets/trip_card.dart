@@ -1,12 +1,11 @@
 import 'package:carpooling_frontend/models/route.dart';
-import 'package:carpooling_frontend/screens/user_route_description_screen/user_route_description_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class RouteCard extends StatelessWidget {
+class TripCard extends StatelessWidget {
   final RouteModel route;
 
-  const RouteCard({super.key, required this.route});
+  const TripCard({super.key, required this.route});
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +49,7 @@ class RouteCard extends StatelessWidget {
             ),
             // Navigation Arrow Icon in Circle
             InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        UserRouteDescriptionScreen(route: route),
-                  ),
-                );
-              },
+              onTap: () {},
               child: CircleAvatar(
                 radius: 20,
                 backgroundColor: const Color(0xFF00204A),

@@ -72,9 +72,21 @@ class ProfileScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 children: [
                   const SizedBox(height: 16),
+                  //ListTile(
+                  //  title: Text(
+                  //    'Тээврийн хэрэгсэл',
+                  //    style: theme.textTheme.headlineMedium
+                  //        ?.copyWith(fontSize: 20),
+                  //  ),
+                  //  trailing: Icon(Icons.arrow_forward_ios,
+                  //      color: theme.colorScheme.onSurface),
+                  //  onTap: () {
+                  //    // Navigate to Vehicle Information screen
+                  //  },
+                  //),
                   ListTile(
                     title: Text(
-                      'Тээврийн хэрэгсэл',
+                      'Мэдэгдэл',
                       style: theme.textTheme.headlineMedium
                           ?.copyWith(fontSize: 20),
                     ),
