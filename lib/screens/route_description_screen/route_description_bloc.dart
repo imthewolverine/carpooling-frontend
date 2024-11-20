@@ -2,21 +2,22 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'ad_description_event.dart';
-import 'ad_description_state.dart';
-import '../../services/secure_storage_service.dart';
+import 'route_description_event.dart';
+import 'route_description_state.dart';
+import '../../../services/secure_storage_service.dart';
 
-class AdDescriptionBloc extends Bloc<AdDescriptionEvent, AdDescriptionState> {
+class RouteDescriptionBloc
+    extends Bloc<RouteDescriptionEvent, RouteDescriptionState> {
   final String baseUrl =
       'https://backend-api-491759785783.asia-northeast1.run.app/';
   final SecureStorageService _secureStorage = SecureStorageService();
 
-  AdDescriptionBloc() : super(AdDescriptionInitial()) {
+  RouteDescriptionBloc() : super(RouteDescriptionInitial()) {
     on<SubmitJobRequest>(_onSubmitJobRequest);
   }
 
   Future<void> _onSubmitJobRequest(
-      SubmitJobRequest event, Emitter<AdDescriptionState> emit) async {
+      SubmitJobRequest event, Emitter<RouteDescriptionState> emit) async {
     emit(JobRequestLoading());
 
     try {

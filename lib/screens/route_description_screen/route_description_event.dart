@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-abstract class AdDescriptionEvent extends Equatable {
-  const AdDescriptionEvent();
+abstract class RouteDescriptionEvent extends Equatable {
+  const RouteDescriptionEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class SubmitJobRequest extends AdDescriptionEvent {
+class SubmitJobRequest extends RouteDescriptionEvent {
   final String adId;
 
   const SubmitJobRequest(this.adId);
@@ -15,7 +15,8 @@ class SubmitJobRequest extends AdDescriptionEvent {
   @override
   List<Object> get props => [adId];
 }
-class LaunchPhone extends AdDescriptionEvent {
+
+class LaunchPhone extends RouteDescriptionEvent {
   final String adId;
 
   const LaunchPhone(this.adId);

@@ -15,8 +15,8 @@ List<RouteModel> Example = [
     location: 'Ulaanbaatar',
     description: 'Description',
     driverId: 'driver123',
-    startLocation: GeoPoint(47.9184, 106.9170), // Coordinates for Ulaanbaatar
-    endLocation: GeoPoint(49.4867, 105.9228), // Coordinates for Darkhan
+    startLocation: GeoPoint(47.9184, 106.9170),
+    endLocation: GeoPoint(47.920538, 106.933446),
     startTime: Timestamp.fromDate(DateTime.parse('2022-01-01 12:00:00')),
     userId: 'user123',
   ),
@@ -60,7 +60,6 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Column(
           children: [
-            _buildTopSection(context),
             Expanded(
               child: BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
@@ -166,22 +165,6 @@ class HomeScreen extends StatelessWidget {
         onChanged: (query) {
           context.read<HomeBloc>().add(SearchAds(query));
         },
-      ),
-    );
-  }
-
-  Widget _buildTopSection(BuildContext context) {
-    return Container(
-      height: 150,
-      margin: EdgeInsets.symmetric(vertical: 10),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildAdBanner(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
-          _buildAdBanner(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvjId5ED74jYnBlek4hJ1jR5tOSeZ0V2KuXQ&s'),
-        ],
       ),
     );
   }

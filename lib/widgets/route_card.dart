@@ -1,7 +1,8 @@
 import 'package:carpooling_frontend/models/route.dart';
+import 'package:carpooling_frontend/screens/user_route_description_screen/user_route_description_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../ad_description_screen/ad_description_screen.dart';
+import '../screens/route_description_screen/route_description_screen.dart';
 
 class RouteCard extends StatelessWidget {
   final RouteModel route;
@@ -54,7 +55,8 @@ class RouteCard extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AdDescriptionScreen(ad: route),
+                    builder: (context) =>
+                        UserRouteDescriptionScreen(route: route),
                   ),
                 );
               },

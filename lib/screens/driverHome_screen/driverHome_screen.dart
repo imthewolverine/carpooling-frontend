@@ -3,10 +3,34 @@ import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_bloc.da
 import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_event.dart';
 import 'package:carpooling_frontend/screens/driverHome_screen/driverHome_state.dart';
 import 'package:carpooling_frontend/widgets/route_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../profile_screen/profile_screen.dart';
 import '../add_post_screen/add_post_screen.dart';
+
+List<RouteModel> Example = [
+  RouteModel(
+    id: '1',
+    location: 'Ulaanbaatar',
+    description: 'Description',
+    driverId: 'driver123',
+    startLocation: GeoPoint(47.9184, 106.9170),
+    endLocation: GeoPoint(47.920538, 106.933446),
+    startTime: Timestamp.fromDate(DateTime.parse('2022-01-01 12:00:00')),
+    userId: 'user123',
+  ),
+  RouteModel(
+    id: '2',
+    location: 'Ulaanbaatar',
+    description: 'Description',
+    driverId: 'driver123',
+    startLocation: GeoPoint(47.9184, 106.9170),
+    endLocation: GeoPoint(47.920538, 106.933446),
+    startTime: Timestamp.fromDate(DateTime.parse('2022-01-01 12:00:00')),
+    userId: 'user123',
+  ),
+];
 
 class DriverHomeScreen extends StatelessWidget {
   @override
@@ -52,14 +76,15 @@ class DriverHomeScreen extends StatelessWidget {
                   if (state is DriverHomeLoading) {
                     return Center(child: CircularProgressIndicator());
                   } else if (state is DriverHomeLoaded) {
-                    return _buildAdList(context, state.ads);
+                    return _buildAdList(context, Example);
                   } else if (state is DriverHomeError) {
-                    return Center(
-                      child: Text(
-                        'Failed to load ads: ${state.message}',
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
+                    //return Center(
+                    //  child: Text(
+                    //    'Failed to load ads: ${state.message}',
+                    //    style: TextStyle(color: Colors.red),
+                    //  ),
+                    //);
+                    return _buildAdList(context, Example);
                   } else {
                     return Center(
                       child: Text(
@@ -73,33 +98,6 @@ class DriverHomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 16.0),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  spreadRadius: 3,
-                  blurRadius: 8,
-                  offset: Offset(0, 5),
-                ),
-              ],
-            ),
-            child: CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              radius: 30,
-              child: IconButton(
-                icon: Icon(Icons.add, color: Colors.white),
-                onPressed: () {
-                  _showAddPostBottomSheet(context);
-                },
-              ),
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }
