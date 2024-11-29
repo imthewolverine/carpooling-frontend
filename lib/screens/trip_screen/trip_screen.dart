@@ -26,7 +26,7 @@ class _TripScreenState extends State<TripScreen> {
   bool _isAtEndLocation = false;
   DateTime? _startTime;
   DateTime? _endTime;
-  List<LatLng> traveledRoute = []; // List to store the traveled path
+  List<LatLng> traveledRoute = []; // Явсан замыг хадгалах жагсаалт
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _TripScreenState extends State<TripScreen> {
     _listenToLocationUpdates();
   }
 
-  // Fetch the user's initial location
+  // Хэрэглэгчийн анхны байршлыг олох
   void _fetchInitialLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -60,15 +60,15 @@ class _TripScreenState extends State<TripScreen> {
       );
       setState(() {
         _currentLocation = LatLng(position.latitude, position.longitude);
-        _mapController.move(_currentLocation!, 12.0); // Center map on location
+        _mapController.move(_currentLocation!, 15.0); // Газрын зургийг төвлөрүүлэх
       });
-      print("Эхний байршил: ${position.latitude}, ${position.longitude}");
+      print("Анхны байршил: ${position.latitude}, ${position.longitude}");
     } catch (e) {
-      print("Байршил авахад алдаа гарлаа: $e");
+      print("Байршил олоход алдаа гарлаа: $e");
     }
   }
 
-  // Listen to location updates in real-time
+  // Байршлыг бодит цаг хугацаанд шинэчлэх
   void _listenToLocationUpdates() {
     Geolocator.getPositionStream(
       locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
@@ -77,7 +77,7 @@ class _TripScreenState extends State<TripScreen> {
         _currentLocation = LatLng(position.latitude, position.longitude);
 
         if (_isTripStarted) {
-          // Add current location to traveled route
+          // Одоогийн байршлыг явсан замд нэмэх
           traveledRoute.add(_currentLocation!);
           _calculateTravelPercentage();
         }
@@ -85,17 +85,16 @@ class _TripScreenState extends State<TripScreen> {
         _checkProximity();
       });
 
-      print("Шинэ байршил: ${position.latitude}, ${position.longitude}");
+      print("Шинэчлэгдсэн байршил: ${position.latitude}, ${position.longitude}");
     });
   }
 
-  // Check if the user is near the start or end location
+  // Эхлэх болон дуусах байршлуудын ойролцоо эсэхийг шалгах
   void _checkProximity() {
     if (_currentLocation == null) return;
 
-    const thresholdDistance = 50000; // Threshold distance in meters
+    const thresholdDistance = 50000; // Зайны босго (метрээр)
 
-    // Check proximity to start location
     final startDistance = Geolocator.distanceBetween(
       widget.startLocation.latitude,
       widget.startLocation.longitude,
@@ -103,7 +102,6 @@ class _TripScreenState extends State<TripScreen> {
       _currentLocation!.longitude,
     );
 
-    // Check proximity to end location
     final endDistance = Geolocator.distanceBetween(
       widget.endLocation.latitude,
       widget.endLocation.longitude,
@@ -117,7 +115,7 @@ class _TripScreenState extends State<TripScreen> {
     });
   }
 
-  // Calculate the percentage of the route traveled
+  // Явсан замын хувь хэмжээг тооцоолох
   void _calculateTravelPercentage() {
     if (_currentLocation == null) return;
 
@@ -146,9 +144,9 @@ class _TripScreenState extends State<TripScreen> {
       _isTripStarted = true;
       _startTime = DateTime.now();
       _travelPercentage = 0.0;
-      traveledRoute = [_currentLocation!]; // Reset traveled route
+      traveledRoute = [_currentLocation!]; // Явсан замыг дахин эхлүүлэх
     });
-    print("Явц эхэлсэн: $_startTime");
+    print("Явц эхэллээ: $_startTime");
   }
 
   void _endTrip() {
@@ -165,7 +163,7 @@ class _TripScreenState extends State<TripScreen> {
       builder: (context) => AlertDialog(
         title: Text("Явц дууссан"),
         content: Text(
-          "Зарцуулагдсан хугацаа: ${elapsedTime.inMinutes} минут\nДууссан хувь: ${_travelPercentage.toStringAsFixed(1)}%",
+          "Зарцуулагдсан хугацаа: ${elapsedTime.inMinutes} минут\nХувь хэмжээ: ${_travelPercentage.toStringAsFixed(1)}%",
         ),
         actions: [
           TextButton(
@@ -176,7 +174,7 @@ class _TripScreenState extends State<TripScreen> {
       ),
     );
 
-    print("Явц дууссан: $_endTime");
+    print("Явц дууслаа: $_endTime");
     print("Зарцуулагдсан хугацаа: $elapsedTime");
   }
 
@@ -184,7 +182,7 @@ class _TripScreenState extends State<TripScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ажлын маршрут'),
+        title: Text('Явцын дэлгэрэнгүй'),
         backgroundColor: Colors.blueAccent,
         elevation: 0,
       ),
@@ -205,13 +203,11 @@ class _TripScreenState extends State<TripScreen> {
                 ),
                 PolylineLayer(
                   polylines: [
-                    // Show the full route
                     Polyline(
                       points: [widget.startLocation, widget.endLocation],
                       color: Colors.blue,
                       strokeWidth: 4.0,
                     ),
-                    // Show the traveled route
                     Polyline(
                       points: traveledRoute,
                       color: Colors.green,
@@ -240,7 +236,7 @@ class _TripScreenState extends State<TripScreen> {
             child: Column(
               children: [
                 Text(
-                  'Явц: ${_travelPercentage.toStringAsFixed(1)}%',
+                  'Явцын хувь: ${_travelPercentage.toStringAsFixed(1)}%',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -255,7 +251,7 @@ class _TripScreenState extends State<TripScreen> {
                           ? _startTrip
                           : null,
                       icon: Icon(Icons.play_arrow),
-                      label: Text('Эхлэх'),
+                      label: Text('Эхлүүлэх'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                       ),
