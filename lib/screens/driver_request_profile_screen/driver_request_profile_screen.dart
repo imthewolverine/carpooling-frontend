@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carpooling_frontend/models/driver.dart';
 
-class RequestProfileScreen extends StatelessWidget {
+class DriverRequestProfileScreen extends StatelessWidget {
   final Driver driver;
 
-  const RequestProfileScreen({Key? key, required this.driver})
+  const DriverRequestProfileScreen({Key? key, required this.driver})
       : super(key: key);
 
   @override

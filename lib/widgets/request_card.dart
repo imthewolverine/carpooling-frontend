@@ -1,6 +1,6 @@
 import 'package:carpooling_frontend/models/driver.dart';
 import 'package:carpooling_frontend/models/DriverRequest.dart';
-import 'package:carpooling_frontend/screens/request_profile_screen/driver_request_profile_screen.dart';
+import 'package:carpooling_frontend/screens/driver_request_profile_screen/driver_request_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 final driver = Driver(

@@ -15,6 +15,7 @@ class DriverRequest {
       driverFirstName: map['driverFirstName'] ?? '',
       driverLastName: map['driverLastName'] ?? '',
       status: map['status'] ?? '',
+      driverId: map['driverId'] ?? '',
     );
   }
 }

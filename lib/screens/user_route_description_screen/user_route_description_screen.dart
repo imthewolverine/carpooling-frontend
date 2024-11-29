@@ -117,7 +117,8 @@ class UserRouteDescriptionScreen extends StatelessWidget {
                                     startPoint,
                                     endPoint,
                                   ),
-                                  _buildRequests(exampleRequests),
+                                  _buildRequests(
+                                      exampleRequests, exampleUserRequests),
                                 ],
                               ),
                             ),
@@ -196,7 +197,8 @@ class UserRouteDescriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRequests(List<DriverRequest> requests) {
+  Widget _buildRequests(
+      List<DriverRequest> requests, List<UserRequest> userRequests) {
     return DefaultTabController(
       length: 2, // Two subtabs: "Pending" and "Approved"
       child: Column(
@@ -217,12 +219,12 @@ class UserRouteDescriptionScreen extends StatelessWidget {
               children: [
                 // Pending Requests
                 _buildDriverRequestList(
-                  requests.where((r) => r.status == 'Pending').toList(),
+                  requests,
                   "No pending requests.",
                 ),
                 // Approved Requests
                 _buildUserRequestList(
-                  requests.where((r) => r.status == 'Approved').toList(),
+                  userRequests,
                   "No approved requests.",
                 ),
               ],
@@ -251,7 +253,7 @@ class UserRouteDescriptionScreen extends StatelessWidget {
   }
 
   Widget _buildUserRequestList(
-      List<DriverRequest> requests, String emptyMessage) {
+      List<UserRequest> requests, String emptyMessage) {
     if (requests.isEmpty) {
       return Center(child: Text(emptyMessage));
     }
