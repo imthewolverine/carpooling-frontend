@@ -1,3 +1,5 @@
+import 'package:carpooling_frontend/screens/trip_list_screen/trip_list_screen.dart';
+import 'package:carpooling_frontend/widgets/driver_route_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carpooling_frontend/models/route.dart';
@@ -61,9 +63,12 @@ class HomeScreen extends StatelessWidget {
                   child: _buildSearchSection(context),
                 ),
                 IconButton(
-                  icon: Icon(Icons.notifications, color: Colors.black),
+                  icon: Icon(Icons.map_outlined, color: Colors.black),
                   onPressed: () {
-                    // Add notification navigation logic here
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TripListScreen()));
                   },
                 ),
               ],
@@ -73,15 +78,32 @@ class HomeScreen extends StatelessWidget {
               unselectedLabelColor: Colors.grey,
               indicatorColor: Theme.of(context).colorScheme.primary,
               tabs: const [
+                Tab(text: 'Маршрут'),
                 Tab(text: 'Оруулсан маршрут'),
-                Tab(text: 'Зөвшөөрсөн маршрут'),
               ],
             ),
           ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           body: TabBarView(
             children: [
-              // First tab: Routes
+              BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is HomeLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is HomeLoaded) {
+                    return _buildRouteList(context, exampleRoutes);
+                  } else if (state is HomeError) {
+                    return _buildRouteList(context, exampleRoutes);
+                  } else {
+                    return Center(
+                      child: Text(
+                        'No routes available.',
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+                    );
+                  }
+                },
+              ),
               BlocBuilder<HomeBloc, HomeState>(
                 builder: (context, state) {
                   if (state is HomeLoading) {
@@ -105,14 +127,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   }
                 },
-              ),
-              // Second tab: Favorites
-              Center(
-                child: Text(
-                  'Favorites coming soon!',
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
-              ),
+              )
             ],
           ),
           floatingActionButton: Padding(
@@ -145,6 +160,16 @@ class HomeScreen extends StatelessWidget {
               FloatingActionButtonLocation.centerDocked,
         ),
       ),
+    );
+  }
+
+  Widget _buildRouteList(BuildContext context, List<RouteModel> routes) {
+    return ListView.builder(
+      itemCount: routes.length,
+      itemBuilder: (context, index) {
+        final route = routes[index];
+        return DriverRouteCard(route: route);
+      },
     );
   }
 

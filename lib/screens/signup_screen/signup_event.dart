@@ -4,7 +4,7 @@ abstract class SignupEvent extends Equatable {
   const SignupEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class SignupUsernameChanged extends SignupEvent {
@@ -43,6 +43,33 @@ class SignupPasswordAgainChanged extends SignupEvent {
   List<Object> get props => [confirmPassword];
 }
 
+class SignupFirstNameChanged extends SignupEvent {
+  final String firstName;
+
+  const SignupFirstNameChanged(this.firstName);
+
+  @override
+  List<Object> get props => [firstName];
+}
+
+class SignupLastNameChanged extends SignupEvent {
+  final String lastName;
+
+  const SignupLastNameChanged(this.lastName);
+
+  @override
+  List<Object> get props => [lastName];
+}
+
+class SignupPhoneNumberChanged extends SignupEvent {
+  final String phoneNumber;
+
+  const SignupPhoneNumberChanged(this.phoneNumber);
+
+  @override
+  List<Object> get props => [phoneNumber];
+}
+
 class SignupSubmitted extends SignupEvent {
   final String role;
 
@@ -52,20 +79,19 @@ class SignupSubmitted extends SignupEvent {
   List<Object> get props => [role];
 }
 
-class TogglePasswordVisibility extends SignupEvent {
-  final bool obscurePassword;
+class SignupRoleChanged extends SignupEvent {
+  final String role;
 
-  const TogglePasswordVisibility({required this.obscurePassword});
+  const SignupRoleChanged(this.role);
 
   @override
-  List<Object> get props => [obscurePassword];
+  List<Object> get props => [role];
+}
+
+class TogglePasswordVisibility extends SignupEvent {
+  const TogglePasswordVisibility();
 }
 
 class ToggleConfirmPasswordVisibility extends SignupEvent {
-  final bool obscureConfirmPassword;
-
-  const ToggleConfirmPasswordVisibility({required this.obscureConfirmPassword});
-
-  @override
-  List<Object> get props => [obscureConfirmPassword];
+  const ToggleConfirmPasswordVisibility();
 }

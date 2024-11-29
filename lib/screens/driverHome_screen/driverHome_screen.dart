@@ -101,9 +101,9 @@ class DriverHomeScreen extends StatelessWidget {
                   if (state is DriverHomeLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is DriverHomeLoaded) {
-                    return _buildAdList(context, exampleRoutes);
+                    return _buildRouteList(context, exampleRoutes);
                   } else if (state is DriverHomeError) {
-                    return _buildAdList(context, exampleRoutes);
+                    return _buildRouteList(context, exampleRoutes);
                   } else {
                     return Center(
                       child: Text(
@@ -144,7 +144,7 @@ class DriverHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildAdList(BuildContext context, List<RouteModel> routes) {
+  Widget _buildRouteList(BuildContext context, List<RouteModel> routes) {
     return ListView.builder(
       itemCount: routes.length,
       itemBuilder: (context, index) {

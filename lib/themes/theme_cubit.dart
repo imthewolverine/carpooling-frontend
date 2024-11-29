@@ -19,10 +19,10 @@ class ThemeDataStyle {
     scaffoldBackgroundColor: Colors.white,
     colorScheme: const ColorScheme.light(
       surface: Color(0xFFf5f5f5),
-      primary: Color.fromRGBO(1, 5, 54, 1),
+      primary: Color(0xFF1D2951),
       secondary: Color(0xFFFFFF00),
       tertiary: Color(0xFFffd531),
-      surfaceContainerHighest: Color.fromRGBO(1, 5, 54, 1),
+      surfaceContainerHighest: Color(0xFF1D2951),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -39,7 +39,7 @@ class ThemeDataStyle {
     ),
     textTheme: const TextTheme(
       headlineLarge: TextStyle(
-        color: Color(0xFF010536), // Dark blue color for text fields
+        color: Color(0xFF4FC2F8), // Dark blue color for text fields
       ),
       headlineMedium: TextStyle(
         color: Colors.black, // Black color for text fields

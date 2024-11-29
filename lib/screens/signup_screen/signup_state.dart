@@ -5,6 +5,10 @@ class SignupState extends Equatable {
   final String email;
   final String password;
   final String confirmPassword;
+  final String firstName;
+  final String lastName;
+  final String phoneNumber;
+  final String role; // Added role field
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
@@ -17,6 +21,10 @@ class SignupState extends Equatable {
     this.email = '',
     this.password = '',
     this.confirmPassword = '',
+    this.firstName = '',
+    this.lastName = '',
+    this.phoneNumber = '',
+    this.role = '', // Default to an empty string
     this.isSubmitting = false,
     this.isSuccess = false,
     this.isFailure = false,
@@ -30,6 +38,10 @@ class SignupState extends Equatable {
     String? email,
     String? password,
     String? confirmPassword,
+    String? firstName,
+    String? lastName,
+    String? phoneNumber,
+    String? role,
     bool? isSubmitting,
     bool? isSuccess,
     bool? isFailure,
@@ -42,6 +54,10 @@ class SignupState extends Equatable {
       email: email ?? this.email,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      role: role ?? this.role,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isSuccess: isSuccess ?? this.isSuccess,
       isFailure: isFailure ?? this.isFailure,
@@ -58,6 +74,10 @@ class SignupState extends Equatable {
         email,
         password,
         confirmPassword,
+        firstName,
+        lastName,
+        phoneNumber,
+        role,
         isSubmitting,
         isSuccess,
         isFailure,

@@ -1,22 +1,25 @@
-import 'package:carpooling_frontend/models/driver.dart';
-import 'package:carpooling_frontend/models/DriverRequest.dart';
-import 'package:carpooling_frontend/screens/request_profile_screen/driver_request_profile_screen.dart';
+import 'dart:io';
+
+import 'package:carpooling_frontend/models/userRequest.dart';
+import 'package:carpooling_frontend/models/user_model.dart';
+import 'package:carpooling_frontend/screens/user_request_profile_screen/user_request_profile_screen.dart';
 import 'package:flutter/material.dart';
 
-final driver = Driver(
-  id: "driver123",
-  driverName: "driverAdmin",
-  email: "batlhagva15@gmail.com",
-  firstName: "batlkhagva",
-  lastName: "battulga",
-  password: "123",
-  phoneNumber: "90553609",
+User user = User(
+  username: 'schoolPolice123',
+  firstName: 'Alice',
+  lastName: 'Johnson',
+  email: 'alice.johnson@schoolpolice.com',
+  phoneNumber: 1234567890,
+  password: 'securePassword123',
+  image: File('/path/to/alice_profile_image.png'), // Replace with actual path
+  assignedSchools: ['Greenwood High School', 'Central Elementary School'],
 );
 
-class RequestCard extends StatelessWidget {
-  final DriverRequest request;
+class UserRequestCard extends StatelessWidget {
+  final UserRequest request;
 
-  const RequestCard({super.key, required this.request});
+  const UserRequestCard({super.key, required this.request});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +30,8 @@ class RequestCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => DriverRequestProfileScreen(
-                driver: driver,
+              builder: (context) => UserRequestProfileScreen(
+                user: user,
               ),
             ),
           );
@@ -39,7 +42,7 @@ class RequestCard extends StatelessWidget {
             child: const Icon(Icons.person, color: Colors.grey),
           ),
           title: Text(
-            "${request.driverFirstName} ${request.driverLastName}",
+            "${request.userFirstName} ${request.userLastName}",
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Row(

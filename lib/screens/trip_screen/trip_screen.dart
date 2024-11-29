@@ -158,7 +158,7 @@ class _TripScreenState extends State<TripScreen> {
     });
 
     final elapsedTime =
-    _startTime != null ? _endTime!.difference(_startTime!) : Duration.zero;
+        _startTime != null ? _endTime!.difference(_startTime!) : Duration.zero;
 
     showDialog(
       context: context,
@@ -200,7 +200,7 @@ class _TripScreenState extends State<TripScreen> {
               children: [
                 TileLayer(
                   urlTemplate:
-                  "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                   subdomains: ['a', 'b', 'c'],
                 ),
                 PolylineLayer(
@@ -261,9 +261,8 @@ class _TripScreenState extends State<TripScreen> {
                       ),
                     ),
                     ElevatedButton.icon(
-                      onPressed: _isTripStarted && _isAtEndLocation
-                          ? _endTrip
-                          : null,
+                      onPressed:
+                          _isTripStarted && _isAtEndLocation ? _endTrip : null,
                       icon: Icon(Icons.stop),
                       label: Text('Дуусгах'),
                       style: ElevatedButton.styleFrom(

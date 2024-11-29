@@ -1,7 +1,5 @@
 import 'dart:io';
 
-enum UserRole { parent, schoolPolice }
-
 class User {
   final String username;
   final String firstName;
@@ -10,7 +8,6 @@ class User {
   final int phoneNumber;
   final String password;
   final File? image;
-  final UserRole role;
   final List<String>? assignedSchools; // Only for schoolPolice
 
   User({
@@ -21,7 +18,6 @@ class User {
     required this.phoneNumber,
     required this.password,
     this.image,
-    required this.role,
     required this.assignedSchools, // This will be null for `parent`
   });
 
@@ -33,7 +29,6 @@ class User {
     int? phoneNumber,
     String? password,
     File? image,
-    UserRole? role,
     List<String>? assignedSchools,
   }) {
     return User(
@@ -44,7 +39,6 @@ class User {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
       image: image ?? this.image,
-      role: role ?? this.role,
       assignedSchools: assignedSchools ?? this.assignedSchools,
     );
   }
@@ -58,7 +52,6 @@ class User {
       'phoneNumber': phoneNumber,
       'password': password,
       'image': image?.path,
-      'role': role.toString().split('.').last,
       'assignedSchools': assignedSchools, // List of assigned schools
     };
   }
@@ -72,8 +65,6 @@ class User {
       phoneNumber: map['phoneNumber'],
       password: map['password'],
       image: map['image'] != null ? File(map['image']) : null,
-      role: UserRole.values.firstWhere(
-              (e) => e.toString() == 'UserRole.${map['role']}'),
       assignedSchools: map['assignedSchools'] != null
           ? List<String>.from(map['assignedSchools'])
           : null,

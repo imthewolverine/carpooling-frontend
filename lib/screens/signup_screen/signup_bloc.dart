@@ -13,9 +13,13 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     on<SignupEmailChanged>(_onEmailChanged);
     on<SignupPasswordChanged>(_onPasswordChanged);
     on<SignupPasswordAgainChanged>(_onPasswordAgainChanged);
+    on<SignupFirstNameChanged>(_onFirstNameChanged);
+    on<SignupLastNameChanged>(_onLastNameChanged);
+    on<SignupPhoneNumberChanged>(_onPhoneNumberChanged);
     on<SignupSubmitted>(_onSignupSubmitted);
     on<TogglePasswordVisibility>(_onTogglePasswordVisibility);
     on<ToggleConfirmPasswordVisibility>(_onToggleConfirmPasswordVisibility);
+    on<SignupRoleChanged>(_onRoleChanged);
   }
 
   void _onUsernameChanged(
@@ -37,14 +41,33 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     emit(state.copyWith(confirmPassword: event.confirmPassword));
   }
 
+  void _onFirstNameChanged(
+      SignupFirstNameChanged event, Emitter<SignupState> emit) {
+    emit(state.copyWith(firstName: event.firstName));
+  }
+
+  void _onLastNameChanged(
+      SignupLastNameChanged event, Emitter<SignupState> emit) {
+    emit(state.copyWith(lastName: event.lastName));
+  }
+
+  void _onPhoneNumberChanged(
+      SignupPhoneNumberChanged event, Emitter<SignupState> emit) {
+    emit(state.copyWith(phoneNumber: event.phoneNumber));
+  }
+
+  void _onRoleChanged(SignupRoleChanged event, Emitter<SignupState> emit) {
+    emit(state.copyWith(role: event.role));
+  }
+
   void _onTogglePasswordVisibility(
       TogglePasswordVisibility event, Emitter<SignupState> emit) {
-    emit(state.copyWith(obscurePassword: !event.obscurePassword));
+    emit(state.copyWith(obscurePassword: !state.obscurePassword));
   }
 
   void _onToggleConfirmPasswordVisibility(
       ToggleConfirmPasswordVisibility event, Emitter<SignupState> emit) {
-    emit(state.copyWith(obscureConfirmPassword: !event.obscureConfirmPassword));
+    emit(state.copyWith(obscureConfirmPassword: !state.obscureConfirmPassword));
   }
 
   Future<void> _onSignupSubmitted(
@@ -54,12 +77,15 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     // Validate inputs locally
     if (state.username.isEmpty ||
         state.email.isEmpty ||
-        state.password.isEmpty) {
+        state.password.isEmpty ||
+        state.firstName.isEmpty ||
+        state.lastName.isEmpty ||
+        state.phoneNumber.isEmpty) {
       emit(state.copyWith(
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
-        errorMessage: 'Fields cannot be empty',
+        errorMessage: 'All fields are required',
       ));
       return;
     }
@@ -99,8 +125,11 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
       ));
       return;
     }
-
-    // Send data to backend
+    emit(state.copyWith(
+      isSubmitting: false,
+      isSuccess: true,
+      isFailure: false,
+    ));
     //try {
     //  final response = await http.post(
     //    Uri.parse(apiEndpoint),
@@ -108,35 +137,38 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     //      'Content-Type': 'application/json; charset=UTF-8',
     //    },
     //    body: jsonEncode(<String, dynamic>{
-    //      'name': state.username,
+    //      'username': state.username,
     //      'email': state.email,
     //      'password': state.password,
+    //      'firstName': state.firstName,
+    //      'lastName': state.lastName,
+    //      'phoneNumber': state.phoneNumber,
     //    }),
     //  );
 //
-//    //  if (response.statusCode == 200) {
-//    //    emit(state.copyWith(
-//    //      isSubmitting: false,
-//    //      isSuccess: true,
-//    //      isFailure: false,
-//    //    ));
-//    //  } else {
-//    //    final errorResponse = json.decode(response.body);
-//    //    emit(state.copyWith(
-//    //      isSubmitting: false,
-//    //      isSuccess: false,
-//    //      isFailure: true,
-//    //      errorMessage: errorResponse['message'] ?? 'Registration failed',
-//    //    ));
-//    //  }
-//    //} catch (e) {
-//    //  emit(state.copyWith(
-//    //    isSubmitting: false,
-//    //    isSuccess: false,
-//    //    isFailure: true,
-//    //    errorMessage: 'Failed to connect to the server',
-//    //  ));
-//    }
+    //  if (response.statusCode == 200) {
+    //    emit(state.copyWith(
+    //      isSubmitting: false,
+    //      isSuccess: true,
+    //      isFailure: false,
+    //    ));
+    //  } else {
+    //    final errorResponse = json.decode(response.body);
+    //    emit(state.copyWith(
+    //      isSubmitting: false,
+    //      isSuccess: false,
+    //      isFailure: true,
+    //      errorMessage: errorResponse['message'] ?? 'Registration failed',
+    //    ));
+    //  }
+    //} catch (e) {
+    //  emit(state.copyWith(
+    //    isSubmitting: false,
+    //    isSuccess: false,
+    //    isFailure: true,
+    //    errorMessage: 'Failed to connect to the server',
+    //  ));
+    //}
   }
 
   Future<bool> _isEmailValid(String email) async {

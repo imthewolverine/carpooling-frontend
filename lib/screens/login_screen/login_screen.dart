@@ -28,10 +28,10 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 80,
-                  fit: BoxFit.contain,
+                Text(
+                  "Carpooling",
+                  style:
+                      TextStyle(fontSize: 48, color: theme.colorScheme.surface),
                 ),
                 const SizedBox(height: 96), // Spacing below the logo
                 TabBar(

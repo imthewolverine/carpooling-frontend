@@ -1,13 +1,21 @@
-import 'package:carpooling_frontend/models/request.dart';
+import 'package:carpooling_frontend/models/DriverRequest.dart';
+import 'package:carpooling_frontend/models/userRequest.dart';
 import 'package:carpooling_frontend/widgets/request_card.dart';
+import 'package:carpooling_frontend/widgets/user_request_card.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:intl/intl.dart';
 import 'package:carpooling_frontend/models/route.dart';
 
-final List<Request> exampleRequests = [
-  Request(driverFirstName: 'John', driverLastName: 'Doe', status: 'Pending'),
-  Request(driverFirstName: 'Jane', driverLastName: 'Smith', status: 'Approved')
+final List<DriverRequest> exampleRequests = [
+  DriverRequest(
+      driverFirstName: 'John', driverLastName: 'Doe', status: 'Pending'),
+  DriverRequest(
+      driverFirstName: 'Jane', driverLastName: 'Smith', status: 'Approved')
+];
+final List<UserRequest> exampleUserRequests = [
+  UserRequest(userFirstName: 'John', userLastName: 'Doe', status: 'Pending'),
+  UserRequest(userFirstName: 'Jane', userLastName: 'Smith', status: 'Approved')
 ];
 
 class UserRouteDescriptionScreen extends StatelessWidget {
@@ -188,9 +196,47 @@ class UserRouteDescriptionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRequests(List<Request> requests) {
+  Widget _buildRequests(List<DriverRequest> requests) {
+    return DefaultTabController(
+      length: 2, // Two subtabs: "Pending" and "Approved"
+      child: Column(
+        children: [
+          // Subtabs
+          TabBar(
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
+            indicatorColor: Colors.black,
+            tabs: const [
+              Tab(text: "Жолооч"),
+              Tab(text: "Эцэг, эх"),
+            ],
+          ),
+          // Subtab content
+          Expanded(
+            child: TabBarView(
+              children: [
+                // Pending Requests
+                _buildDriverRequestList(
+                  requests.where((r) => r.status == 'Pending').toList(),
+                  "No pending requests.",
+                ),
+                // Approved Requests
+                _buildUserRequestList(
+                  requests.where((r) => r.status == 'Approved').toList(),
+                  "No approved requests.",
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDriverRequestList(
+      List<DriverRequest> requests, String emptyMessage) {
     if (requests.isEmpty) {
-      return const Center(child: Text("No requests found."));
+      return Center(child: Text(emptyMessage));
     }
 
     return ListView.builder(
@@ -198,6 +244,23 @@ class UserRouteDescriptionScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         final request = requests[index];
         return RequestCard(
+          request: request,
+        );
+      },
+    );
+  }
+
+  Widget _buildUserRequestList(
+      List<DriverRequest> requests, String emptyMessage) {
+    if (requests.isEmpty) {
+      return Center(child: Text(emptyMessage));
+    }
+
+    return ListView.builder(
+      itemCount: requests.length,
+      itemBuilder: (context, index) {
+        final request = requests[index];
+        return UserRequestCard(
           request: request,
         );
       },

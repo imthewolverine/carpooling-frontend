@@ -1,3 +1,4 @@
+import 'package:carpooling_frontend/screens/driver_information_screen/driver_information.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'signup_bloc.dart';
@@ -26,8 +27,21 @@ class SignupScreen extends StatelessWidget {
                     backgroundColor: Colors.green,
                   ),
                 );
-                Navigator.pop(context);
+
+                // Navigate based on role
+                if (state.role == "Жолооч") {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DriverInformationScreen(),
+                    ),
+                  );
+                } else {
+                  // Navigate back to the home screen or parent flow
+                  Navigator.pop(context);
+                }
               }
+
               if (state.isFailure) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -47,10 +61,10 @@ class SignupScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Logo
-                        Image.asset(
-                          'assets/images/logo.png',
-                          height: 80,
-                          fit: BoxFit.contain,
+                        Text(
+                          "Carpooling",
+                          style: TextStyle(
+                              fontSize: 48, color: theme.colorScheme.surface),
                         ),
                         const SizedBox(height: 84),
 
@@ -59,6 +73,12 @@ class SignupScreen extends StatelessWidget {
                           labelColor: theme.colorScheme.surface,
                           unselectedLabelColor: Colors.grey,
                           indicatorColor: theme.colorScheme.surface,
+                          onTap: (index) {
+                            final role = index == 0 ? "Эцэг эх" : "Жолооч";
+                            context
+                                .read<SignupBloc>()
+                                .add(SignupRoleChanged(role));
+                          },
                           tabs: const [
                             Tab(text: "Эцэг эх"),
                             Tab(text: "Жолооч"),
@@ -115,6 +135,63 @@ class SignupScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
+          // First Name Field
+          TextField(
+            onChanged: (value) => bloc.add(SignupFirstNameChanged(value)),
+            style: theme.textTheme.bodyLarge,
+            decoration: InputDecoration(
+              labelText: 'Овог',
+              labelStyle: theme.textTheme.bodyLarge,
+              fillColor: null,
+              filled: false,
+              enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.yellow),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Last Name Field
+          TextField(
+            onChanged: (value) => bloc.add(SignupLastNameChanged(value)),
+            style: theme.textTheme.bodyLarge,
+            decoration: InputDecoration(
+              labelText: 'Нэр',
+              labelStyle: theme.textTheme.bodyLarge,
+              fillColor: null,
+              filled: false,
+              enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.yellow),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // Phone Number Field
+          TextField(
+            onChanged: (value) => bloc.add(SignupPhoneNumberChanged(value)),
+            style: theme.textTheme.bodyLarge,
+            decoration: InputDecoration(
+              labelText: 'Утасны дугаар',
+              labelStyle: theme.textTheme.bodyLarge,
+              fillColor: null,
+              filled: false,
+              enabledBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+              focusedBorder: const UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.yellow),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
           // Username Field
           TextField(
             onChanged: (value) => bloc.add(SignupUsernameChanged(value)),
@@ -154,8 +231,7 @@ class SignupScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      bloc.add(TogglePasswordVisibility(
-                          obscurePassword: state.obscurePassword));
+                      bloc.add(TogglePasswordVisibility());
                     },
                   ),
                   enabledBorder: const UnderlineInputBorder(
@@ -191,9 +267,7 @@ class SignupScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      bloc.add(ToggleConfirmPasswordVisibility(
-                          obscureConfirmPassword:
-                              state.obscureConfirmPassword));
+                      bloc.add(ToggleConfirmPasswordVisibility());
                     },
                   ),
                   enabledBorder: const UnderlineInputBorder(
@@ -213,7 +287,7 @@ class SignupScreen extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                bloc.add(SignupSubmitted(role: role)); // Pass the role
+                bloc.add(SignupSubmitted(role: role));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.colorScheme.secondary,
@@ -223,56 +297,6 @@ class SignupScreen extends StatelessWidget {
                 'Бүртгүүлэх',
                 style: TextStyle(color: Colors.black),
               ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // Google and Facebook Login Section
-          const Text(
-            'эсвэл',
-            style: TextStyle(color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Handle Facebook login
-                },
-                icon: const Icon(Icons.facebook, color: Colors.blue),
-                label: const Text('Facebook'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                ),
-              ),
-              const SizedBox(width: 16),
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Handle Google login
-                },
-                icon: const Icon(Icons.g_mobiledata, color: Colors.red),
-                label: const Text('Google'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          // Existing Account Link
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Text(
-              'Бүртгэлтэй юу? Нэвтрэх',
-              style: theme.textTheme.bodyLarge,
-              textAlign: TextAlign.center,
             ),
           ),
         ],

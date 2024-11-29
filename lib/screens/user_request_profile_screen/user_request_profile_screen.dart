@@ -1,7 +1,23 @@
+import 'dart:io';
+
+import 'package:carpooling_frontend/models/user_model.dart';
 import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+User schoolPoliceUser = User(
+  username: 'schoolPolice123',
+  firstName: 'Alice',
+  lastName: 'Johnson',
+  email: 'alice.johnson@schoolpolice.com',
+  phoneNumber: 1234567890,
+  password: 'securePassword123',
+  image: File('/path/to/alice_profile_image.png'), // Replace with actual path
+  assignedSchools: ['Greenwood High School', 'Central Elementary School'],
+);
+
+class UserRequestProfileScreen extends StatelessWidget {
+  final User user;
+  const UserRequestProfileScreen({Key? key, required this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +100,6 @@ class ProfileScreen extends StatelessWidget {
                   //    // Navigate to Vehicle Information screen
                   //  },
                   //),
-                  ListTile(
-                    title: Text(
-                      'Мэдэгдэл',
-                      style: theme.textTheme.headlineMedium
-                          ?.copyWith(fontSize: 20),
-                    ),
-                    trailing: Icon(Icons.arrow_forward_ios,
-                        color: theme.colorScheme.onSurface),
-                    onTap: () {
-                      // Navigate to Vehicle Information screen
-                    },
-                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Хэрэглэгчийн мэдээлэл',

@@ -1,4 +1,4 @@
-import 'package:carpooling_frontend/models/request.dart';
+import 'package:carpooling_frontend/models/DriverRequest.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'request_event.dart';
 import 'request_state.dart';
@@ -13,11 +13,11 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         // Fetch requests from the backend
         await Future.delayed(const Duration(seconds: 2)); // Simulate API call
         final requests = [
-          Request(
+          DriverRequest(
               driverFirstName: "John",
               driverLastName: "Doe",
               status: "Pending"),
-          Request(
+          DriverRequest(
               driverFirstName: "Jane",
               driverLastName: "Smith",
               status: "Approved"),

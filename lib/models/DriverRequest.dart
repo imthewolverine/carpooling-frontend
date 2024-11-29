@@ -1,16 +1,17 @@
-class Request {
+class DriverRequest {
   final String driverFirstName;
   final String driverLastName;
   final String status;
-
-  Request({
+  final String driverId;
+  DriverRequest({
     required this.driverFirstName,
     required this.driverLastName,
     required this.status,
+    this.driverId = '',
   });
 
-  factory Request.fromMap(Map<String, dynamic> map) {
-    return Request(
+  factory DriverRequest.fromMap(Map<String, dynamic> map) {
+    return DriverRequest(
       driverFirstName: map['driverFirstName'] ?? '',
       driverLastName: map['driverLastName'] ?? '',
       status: map['status'] ?? '',

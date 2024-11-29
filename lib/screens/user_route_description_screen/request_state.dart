@@ -1,4 +1,4 @@
-import 'package:carpooling_frontend/models/request.dart';
+import 'package:carpooling_frontend/models/DriverRequest.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class RequestState extends Equatable {
@@ -13,7 +13,7 @@ class RequestInitial extends RequestState {}
 class RequestLoading extends RequestState {}
 
 class RequestLoaded extends RequestState {
-  final List<Request> requests;
+  final List<DriverRequest> requests;
 
   const RequestLoaded(this.requests);
 
